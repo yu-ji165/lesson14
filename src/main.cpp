@@ -4,7 +4,8 @@
 #include <crtdbg.h>
 // メモリリークチェックコード
 
-#include "DxLib.h"
+#include <windows.h>
+#include "エンジン.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -13,22 +14,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	// メモリリークチェックコード
 
-	ChangeWindowMode(TRUE);//非全画面にセット
-	SetGraphMode(540, 960, 32);
-	if (DxLib_Init() == -1) { return -1; }	// DXライブラリ初期化(エラーで終了)
+	ゲームエンジン *エンジン= new ゲームエンジン();
 
-	// メインループ
-	while (ProcessMessage() == 0)
-	{
-		// 描画
-		ClearDrawScreen();//裏画面消す
-		SetDrawScreen(DX_SCREEN_BACK);//描画先を裏画面に
+	if (!エンジン) return -1;// メモリ確保に失敗
 
-		// 何かあるなら描画
+	エンジン->実行();
 
-		ScreenFlip();//裏画面を表画面にコピー
-	}
-
+	delete エンジン;
 
 	return 0;				// ソフトの終了 
 }
