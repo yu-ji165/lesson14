@@ -123,6 +123,8 @@ namespace エンジン
 	{
 		switch (種類) {
 		case 種類::プレイヤー: return typeid(プレイヤー・エンティティ);
+		case 種類::ステージ１: return typeid(ステージ１・エンティティ);
+		case 種類::ザコ１:     return typeid(ザコ１・エンティティ);
 		default:return typeid(int);
 		}
 	}
@@ -134,6 +136,12 @@ namespace エンジン
 		switch (種類) {
 		case 種類::プレイヤー:
 			p = new プレイヤー・エンティティ();
+			break;
+		case 種類::ステージ１:
+			p = new ステージ１・エンティティ();
+			break;
+		case 種類::ザコ１:
+			p = new ザコ１・エンティティ();
 			break;
 		default:
 			return -1; // おかしな種類が指定された
